@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/SourceZh/Interestor/issues"
   },
-  "homepage": "https://github.com/SourceZh/Interestor#readme"
+  "homepage": "https://github.com/SourceZh/Interestor#readme",
+  "dependencies": {
+    "express": "^4.13.4"
+  }
 }
