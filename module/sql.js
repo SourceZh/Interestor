@@ -95,6 +95,8 @@ module.exports = function (){
     };
     this.createlist = function (UserID, ListName, createtime) {
         var lid = UserID+'-'+ListName;
-        this.connection.query("INSERT INTO list VALUES(+"+lid+",'"+ListName+"','"+lid+"','"+lid+"',0,'"+createtime+"','"+createtime+"')");
+        this.connection.query("insert into list values("+lid+",'"+ListName+"','"+lid+"','"+lid+"',0,'"+createtime+"','"+createtime+"')");
+        this.connection.query("insert into privilege values("+UserID+",'"+lid+"','create')");
+        this.result.ListID = lid;
     }
 };
