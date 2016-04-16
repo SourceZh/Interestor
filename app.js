@@ -4,7 +4,6 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var moment = require('moment');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -57,7 +56,4 @@ app.use(function(err, req, res) {
   });
 });
 
-
 module.exports = app;
-
-console.log(moment().format('YYYY-MM-DD hh:mm:ss'));
