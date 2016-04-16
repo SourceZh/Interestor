@@ -3,7 +3,7 @@
  */
 var random = require('./random');
 var mysql = require('./sql');
-
+var time = require('./time');
 
 exports.logon = function(UserName, Passwd, Callback){
     var sql = new mysql();
@@ -93,4 +93,18 @@ exports.listinfo = function (ListID, Callback) {
         var result = sql.result;
         Callback(result);
     })
+};
+
+exports.createlist = function (UserID, ListName, Callback) {
+    var sql = new mysql();
+    sql.connect();
+    sql.creatlist(UserID, ListName, time.now());
+    sql.end(function (err) {
+        if (err) {
+            sql.result.error = true;
+            throw err;
+        }
+        var result = sql.result;
+        Callback(result);
+    });
 };

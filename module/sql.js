@@ -27,7 +27,7 @@ module.exports = function (){
     };
     this.queryUser = function(UserName){
         var res = this.result;
-        this.connection.query("select * from user where name='"+UserName+"'", function(err, rows, fields){
+        this.connection.query("select * from user where name='"+UserName+"'", function(err, rows){
             if(err) throw err;
             if (rows[0] != undefined){
                 res.uid = rows[0].uid;
@@ -38,7 +38,7 @@ module.exports = function (){
     };
     this.queryUserHash = function(UserID){
         var res = this.result;
-        this.connection.query("select hash from user where uid="+UserID, function(err, rows, fields){
+        this.connection.query("select hash from user where uid="+UserID, function(err, rows){
             if(err) throw err;
             if (rows[0] != undefined){
                 res.hash = rows[0].hash;
@@ -50,7 +50,7 @@ module.exports = function (){
     };
     this.queryUserNum = function () {
         var res =this.result;
-        this.connection.query("select count from system", function (err, rows, fields) {
+        this.connection.query("select count from system", function (err, rows) {
             if (err) throw err;
             res.count = rows[0].count;
         });
@@ -60,37 +60,41 @@ module.exports = function (){
     };
     this.querylatest = function (Num) {
         var res =this.result;
-        this.connection.query("select * from items order by createtime desc limit "+Num, function (err, rows, fields) {
+        this.connection.query("select * from items order by createtime desc limit "+Num, function (err, rows) {
             if (err) throw err;
             res.latest = rows;
         });
     };
     this.querycreate = function (UserID) {
         var res =this.result;
-        this.connection.query("select lid from privilege where uid="+UserID+" and  privilege='create'", function (err, rows, fields) {
+        this.connection.query("select lid from privilege where uid="+UserID+" and  privilege='create'", function (err, rows) {
             if (err) throw err;
             res.create = rows;
         });
     };
     this.querycollect = function (UserID) {
         var res =this.result;
-        this.connection.query("select lid from privilege where uid="+UserID+" and privilege='collect'", function (err, rows, fields) {
+        this.connection.query("select lid from privilege where uid="+UserID+" and privilege='collect'", function (err, rows) {
             if (err) throw err;
             res.collect = rows;
         });
     };
     this.queryconcern = function (UserID) {
         var res = this.result;
-        this.connection.query("select uid1 from concern where uid2="+UserID, function (err, rows, fields) {
+        this.connection.query("select uid1 from concern where uid2="+UserID, function (err, rows) {
             if (err) throw err;
             res.concern = rows;
         });
     };
     this.querylist = function (ListID) {
         var res = this.result;
-        this.connection.query("select * from items there lid='"+ListID+"'", function (err, rows, fields) {
+        this.connection.query("select * from items there lid='"+ListID+"'", function (err, rows) {
             if (err) throw err;
             res.list = rows;
         });
     };
+    this.createlist = function (UserID, ListName, createtime) {
+        var lid = UserID+'-'+ListName;
+        this.connection.query("INSERT INTO list VALUES(+"+lid+",'"+ListName+"','"+lid+"','"+lid+"',0,'"+createtime+"','"+createtime+"')");
+    }
 };
