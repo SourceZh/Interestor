@@ -5,20 +5,26 @@ var crypto = require('crypto');
 var mysql = require('./sql');
 
 var cnt = 0;
-var sql = new mysql();
-sql.connect();
-sql.queryUserNum();
-sql.end(function (err) {
-    if (err) throw err;
-    cnt = sql.result.count;
-});
+console.log(crypto);
+console.log(mysql);
 
-var MySha256 = function () {
-    this.secret = 'I love intrerester';
-    this.sha256 = crypto.createHmac('sha256', this.secret);
-    this.hash = function (String) {
-        return this.sha256.update(String).digest('hex');
-    }
+function init(){
+    var sql = new mysql();
+    sql.connect();
+    sql.queryUserNum();
+    sql.end(function (err) {
+        if (err) throw err;
+        cnt = sql.result.count;
+    });
+}
+
+init();
+
+var MySha256 = {
+    secret:'I love intrerester'
+};
+MySha256.hash = function (String) {
+    return crypto.createHmac('sha256', MySha256.secret).update(String).digest('hex');
 };
 
 exports.hash = function(String){
@@ -27,6 +33,7 @@ exports.hash = function(String){
 
 exports.nextid = function () {
     ++cnt;
+    var sql = new mysql();
     sql.connect();
     sql.updateUserNum(cnt);
     sql.end();

@@ -1,7 +1,7 @@
 var mysql = require('mysql');
 var random = require('./random');
 
-function database(){
+module.exports = function (){
     this.result = {
         error: false
     };
@@ -93,6 +93,4 @@ function database(){
             res.list = rows;
         });
     };
-}
-
-module.exports = database;
+};

@@ -1,8 +1,9 @@
 /**
  * Created by ooooo on 2016/4/3.
  */
-var mysql = require('./sql');
 var random = require('./random');
+var mysql = require('./sql');
+
 
 exports.logon = function(UserName, Passwd, Callback){
     var sql = new mysql();
@@ -38,9 +39,10 @@ exports.register = function (UserName, Passwd, Callback) {
             result.error = true;
         }else{
             result.uid = random.nextid();
+            console.log(result.uid.toString());
             result.name = UserName;
             result.passwd = Passwd;
-            result.key = random.hash(result.uid);
+            result.key = random.hash(result.uid.toString());
             insert(result);
         }
         Callback(result);
