@@ -76,4 +76,20 @@ router.get('/CREATELIST', function (req, res) {
     })
 });
 
+router.get('/LIKE', function (res, req) {
+    var query = querystring.parse(url.parse(req.url).query);
+    var UserID = query["UserID"];
+    var Key = query["Key"];
+    var type = query["Type"];
+    var id = query["ID"];
+    var num = query["Num"];
+    handle.checkKey(UserID, Key, function (state) {
+        if (state){
+
+        }else{
+
+        }
+    })
+});
+
 module.exports = router;

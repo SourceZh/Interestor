@@ -99,4 +99,7 @@ module.exports = function (){
         this.connection.query("insert into privilege values("+UserID+",'"+lid+"','create')");
         this.result.ListID = lid;
     }
+    this.likeitem = function (ItemID, NewNum) {
+        this.connection.query("update item set ")
+    }
 };
