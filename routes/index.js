@@ -78,18 +78,26 @@ router.get('/CREATELIST', function (req, res) {
 
 router.get('/LIKE', function (res, req) {
     var query = querystring.parse(url.parse(req.url).query);
-    var UserID = query["UserID"];
-    var Key = query["Key"];
     var type = query["Type"];
     var id = query["ID"];
     var num = query["Num"];
-    handle.checkKey(UserID, Key, function (state) {
-        if (state){
+    if (type == 'list'){
+        handle.likelist(id, num);
+    }else if (type == 'item'){
+        handle.likeitem(id, num);
+    }
+});
 
-        }else{
-
-        }
-    })
+router.get('/DISLIKE', function (res, req) {
+    var query = querystring.parse(url.parse(req.url).query);
+    var type = query["Type"];
+    var id = query["ID"];
+    var num = query["Num"];
+    if (type == 'list'){
+        handle.dislikelist(id, num);
+    }else if (type == 'item'){
+        handle.dislikeitem(id, num);
+    }
 });
 
 module.exports = router;

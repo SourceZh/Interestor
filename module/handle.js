@@ -108,3 +108,31 @@ exports.createlist = function (UserID, ListName, Callback) {
         Callback(result);
     });
 };
+
+exports.likeitem = function (ItemID, Num) {
+    var sql = new mysql();
+    sql.connect();
+    sql.likeitem(ItemID, Num+1);
+    sql.end();
+};
+
+exports.dislikeitem = function (ItemID, Num) {
+    var sql = new mysql();
+    sql.connect();
+    sql.dislikeitem(ItemID, Num+1);
+    sql.end();
+};
+
+exports.likelist = function (ListID, Num) {
+    var sql = new mysql();
+    sql.connect();
+    sql.likelist(ListID, Num+1);
+    sql.end();
+};
+
+exports.dislikelist = function (ListID, Num) {
+    var sql = new mysql();
+    sql.connect();
+    sql.dislikelist(ListID, Num+1);
+    sql.end();
+};

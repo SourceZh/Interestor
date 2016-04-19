@@ -50,6 +50,6 @@ LIKE
 ###踩
 DISLIKE
 
-发送：User+Key+Type+ID
+发送：User+Key+Type+ID+Num
 
 返回：

@@ -98,8 +98,17 @@ module.exports = function (){
         this.connection.query("insert into list values("+lid+",'"+ListName+"','"+lid+"','"+lid+"',0,'"+createtime+"','"+createtime+"')");
         this.connection.query("insert into privilege values("+UserID+",'"+lid+"','create')");
         this.result.ListID = lid;
-    }
+    };
     this.likeitem = function (ItemID, NewNum) {
-        this.connection.query("update item set ")
-    }
+        this.connection.query("update items set like = "+NewNum+" where iid = '"+ItemID+"'");
+    };
+    this.dislikeitem = function (ItemID, NewNum) {
+        this.connection.query("update items set dislike = "+NewNum+" where iid = '"+ItemID+"'");
+    };
+    this.likelist = function (ListID, NewNum) {
+        this.connection.query("update list set like = "+NewNum+" where lid = '"+ListID+"'");
+    };
+    this.dislikelist = function (ListID, NewNum) {
+        this.connection.query("update list set dislike = "+NewNum+" where lid = '"+ListID+"'");
+    };
 };
