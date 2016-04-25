@@ -93,10 +93,13 @@ module.exports = function (){
             res.list = rows;
         });
     };
+    this.addlist = function (UserID, ListID, Privilege) {
+        this.connection.query("insert into privilege values("+UserID+",'"+ListID+"','"+Privilege+"')");
+    };
     this.createlist = function (UserID, ListName, createtime) {
         var lid = UserID+'-'+ListName;
         this.connection.query("insert into list values("+lid+",'"+ListName+"','"+lid+"','"+lid+"',0,'"+createtime+"','"+createtime+"')");
-        this.connection.query("insert into privilege values("+UserID+",'"+lid+"','create')");
+        this.addlist(UserID, lid, 'create');
         this.result.ListID = lid;
     };
     this.likeitem = function (ItemID, NewNum) {
@@ -118,5 +121,4 @@ module.exports = function (){
             res.infobox = rows;
         })
     };
-
 };

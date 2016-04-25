@@ -144,3 +144,10 @@ exports.infobox = function (UserID, Lower, Upper, Callback) {
         Callback(result);
     });
 };
+
+exports.collectlist = function (UserID, ListID) {
+    var sql = new mysql();
+    sql.connect();
+    sql.addlist(UserID, ListID, 'collect');
+    sql.end();
+};
