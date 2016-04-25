@@ -86,19 +86,29 @@ module.exports = function (){
             res.concern = rows;
         });
     };
+    this.liststate = function (ListID) {
+        var res = this.result;
+        this.connection.query("select * from list where lid='"+ListID+"'", function (err, rows) {
+            if (err) throw err;
+            res.list = rows[0];
+        })
+    };
     this.querylist = function (ListID) {
         var res = this.result;
-        this.connection.query("select * from items there lid='"+ListID+"'", function (err, rows) {
+        this.connection.query("select * from items where lid='"+ListID+"'", function (err, rows) {
             if (err) throw err;
-            res.list = rows;
+            res.items = rows;
         });
     };
     this.addlist = function (UserID, ListID, Privilege) {
         this.connection.query("insert into privilege values("+UserID+",'"+ListID+"','"+Privilege+"')");
     };
-    this.createlist = function (UserID, ListName, createtime) {
+    this.createlist = function (UserID, ListName, createtime, pid, rid) {
         var lid = UserID+'-'+ListName;
-        this.connection.query("insert into list values("+lid+",'"+ListName+"','"+lid+"','"+lid+"',0,'"+createtime+"','"+createtime+"')");
+        if (pid == undefined){
+            rid = pid = lid;
+        }
+        this.connection.query("insert into list values("+lid+",'"+ListName+"','"+pid+"','"+rid+"',0,'"+createtime+"','"+createtime+"')");
         this.addlist(UserID, lid, 'create');
         this.result.ListID = lid;
     };
@@ -121,4 +131,16 @@ module.exports = function (){
             res.infobox = rows;
         })
     };
+    this.insertitem = function (ItemID, ListID, CreateTime, UpTime, SourceListID, Link) {
+        if (Uptime == undefined){
+            UpTime = CreateTime;
+        }
+        if (SourceListID == undefined){
+            SourceListID = ListID;
+        }
+        if (Link == undefined){
+            Link = "";
+        }
+        this.connection.query("insert into items values('"+ItemID+"','"+ListID+"'"+SourceListID+"',0,0,0,0,'"+Link+"','"+UpTime+"','"+CreateTime+"','"+Link+"'");
+    }
 };

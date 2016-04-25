@@ -133,4 +133,20 @@ router.get('/COLLECTLIST', function (res, req) {
     })
 });
 
+router.get('/FORKLIST', function (res, req) {
+    var query = querystring.parse(url.parse(req.url).query);
+    var UserID = query["UserID"];
+    var Key = query["Key"];
+    var ListID = query["ListID"];
+    var ListName = query["ListName"];
+    handle.checkKey(UserID, Key, function (state) {
+        if (state){
+            handle.forklist(UserID, ListID, ListName);
+        }else{
+            var result = {error:true};
+            res.json(result);
+        }
+    })
+});
+
 module.exports = router;

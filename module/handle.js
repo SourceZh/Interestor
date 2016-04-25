@@ -21,12 +21,12 @@ exports.logon = function(UserName, Passwd, Callback){
     });
 };
 
-var insert = function (res) {
+function insert (res) {
     var sql = new mysql();
     sql.connect();
     sql.insertUser(res.uid, res.name, res.passwd);
     sql.end();
-};
+}
 
 exports.register = function (UserName, Passwd, Callback) {
     var sql = new mysql();
@@ -150,4 +150,38 @@ exports.collectlist = function (UserID, ListID) {
     sql.connect();
     sql.addlist(UserID, ListID, 'collect');
     sql.end();
+};
+
+function insertitems(result, UserID) {
+    var sql = new mysql();
+    sql.connect();
+    var items = result.items;
+    var ListID = result.ListID;
+    var itemid;
+    for (var key in items){
+        itemid = UserID + '-' + items[key].iid;
+        sql.insertitem(itemid, ListID, items[key].createtime, items[key].uptime, items[key].sid, items[key].link);
+    }
+    sql.end();
+}
+
+function fork(result, UserID, ListName) {
+    var sql = new mysql();
+    sql.connect();
+    sql.createlist(UserID, ListName, time.now(), result.list.lid, result.list.rid);
+    sql.querylist(result.list.lid);
+    sql.end(function (err) {
+        if (err) throw err;
+        insertitems(sql.result, UserID);
+    })
+}
+
+exports.forklist = function (UserID, ListID, ListName) {
+    var sql = new mysql();
+    sql.connect();
+    sql.liststate(ListID);
+    sql.end(function (err) {
+        if (err) throw err;
+        fork(sql.result, UserID, ListName);
+    })
 };
