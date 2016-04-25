@@ -46,7 +46,7 @@ exports.register = function (UserName, Passwd, Callback) {
             insert(result);
         }
         Callback(result);
-    })
+    });
 };
 
 exports.discover = function (Num, Callback){
@@ -68,7 +68,7 @@ exports.checkKey = function (UserID, Key, Callback) {
         if (err) throw err;
         var result = sql.result;
         Callback(Key==result.hash);
-    })
+    });
 };
 
 exports.userinfo = function (Callback) {
@@ -92,7 +92,7 @@ exports.listinfo = function (ListID, Callback) {
         if (err) throw err;
         var result = sql.result;
         Callback(result);
-    })
+    });
 };
 
 exports.createlist = function (UserID, ListName, Callback) {
@@ -151,6 +151,12 @@ exports.collectlist = function (UserID, ListID) {
     sql.addlist(UserID, ListID, 'collect');
     sql.end();
 };
+function insertitem(item, ItemID, ListID) {
+    var sql = new mysql();
+    sql.connect();
+    sql.insertitem(ItemID, ListID, item.createtime, time.now(), item.sid, item.link);
+    sql.end();
+}
 
 function insertitems(result, UserID) {
     var sql = new mysql();
@@ -160,7 +166,7 @@ function insertitems(result, UserID) {
     var itemid;
     for (var key in items){
         itemid = UserID + '-' + items[key].iid;
-        sql.insertitem(itemid, ListID, items[key].createtime, items[key].uptime, items[key].sid, items[key].link);
+        sql.insertitem(itemid, ListID, items[key].createtime, time.now(), items[key].sid, items[key].link);
     }
     sql.end();
 }
@@ -173,7 +179,7 @@ function fork(result, UserID, ListName) {
     sql.end(function (err) {
         if (err) throw err;
         insertitems(sql.result, UserID);
-    })
+    });
 }
 
 exports.forklist = function (UserID, ListID, ListName) {
@@ -183,5 +189,16 @@ exports.forklist = function (UserID, ListID, ListName) {
     sql.end(function (err) {
         if (err) throw err;
         fork(sql.result, UserID, ListName);
-    })
+    });
+};
+
+exports.collectitem = function (UserID, ItemID, ListID) {
+    var sql = new mysql();
+    sql.connect();
+    sql.itemstate(ItemID);
+    sql.end(function (err) {
+        if (err) throw err;
+        var ItemID = UserID+'-'+sql.result.item.iid;
+        insertitem(sql.result.item, ItemID, ListID);
+    });
 };

@@ -86,12 +86,19 @@ module.exports = function (){
             res.concern = rows;
         });
     };
+    this.itemstate = function (ItemID) {
+        var res = this.result;
+        this.connection.query("select * from items where iid='"+ItemID+"'", function (err, rows) {
+            if (err) throw err;
+            res.item = rows[0];
+        });
+    };
     this.liststate = function (ListID) {
         var res = this.result;
         this.connection.query("select * from list where lid='"+ListID+"'", function (err, rows) {
             if (err) throw err;
             res.list = rows[0];
-        })
+        });
     };
     this.querylist = function (ListID) {
         var res = this.result;
