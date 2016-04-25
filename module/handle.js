@@ -100,10 +100,7 @@ exports.createlist = function (UserID, ListName, Callback) {
     sql.connect();
     sql.creatlist(UserID, ListName, time.now());
     sql.end(function (err) {
-        if (err) {
-            sql.result.error = true;
-            throw err;
-        }
+        if (err) throw err;
         var result = sql.result;
         Callback(result);
     });
@@ -135,4 +132,15 @@ exports.dislikelist = function (ListID, Num) {
     sql.connect();
     sql.dislikelist(ListID, Num+1);
     sql.end();
+};
+
+exports.infobox = function (UserID, Lower, Upper, Callback) {
+    var sql = new mysql();
+    sql.connect();
+    sql.infobox(UserID, Lower, Upper);
+    sql.end(function (err) {
+        if (err) throw err;
+        var result = sql.result;
+        Callback(result);
+    });
 };

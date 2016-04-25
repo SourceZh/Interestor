@@ -59,7 +59,7 @@ module.exports = function (){
         this.connection.query("update system set count = " + Num);
     };
     this.querylatest = function (Num) {
-        var res =this.result;
+        var res = this.result;
         this.connection.query("select * from items order by createtime desc limit "+Num, function (err, rows) {
             if (err) throw err;
             res.latest = rows;
@@ -111,4 +111,12 @@ module.exports = function (){
     this.dislikelist = function (ListID, NewNum) {
         this.connection.query("update list set dislike = "+NewNum+" where lid = '"+ListID+"'");
     };
+    this.infobox = function (UserID, Lower, Upper) {
+        var res = this.result;
+        this.connection.query("selset * from items where privilege.uid="+UserID+" and privilege.privilege='collect' and privilege.lid=items.lid order by createtime desc limit "+Lower+", "+Upper, function (err, rows) {
+            if (err) throw err;
+            res.infobox = rows;
+        })
+    };
+
 };
