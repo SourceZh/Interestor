@@ -138,7 +138,7 @@ module.exports = function (){
             res.infobox = rows;
         })
     };
-    this.insertitem = function (ItemID, ListID, CreateTime, UpTime, SourceListID, Link) {
+    this.insertitem = function (ItemID, ListID, CreateTime, UpTime, SourceListID, Link, Creater) {
         if (Uptime == undefined){
             UpTime = CreateTime;
         }
@@ -148,6 +148,6 @@ module.exports = function (){
         if (Link == undefined){
             Link = "";
         }
-        this.connection.query("insert into items values('"+ItemID+"','"+ListID+"'"+SourceListID+"',0,0,0,0,'"+Link+"','"+UpTime+"','"+CreateTime+"','"+Link+"'");
+        this.connection.query("insert into items values('"+ItemID+"','"+ListID+"'"+SourceListID+"',0,0,0,0,'"+Link+"','"+UpTime+"','"+CreateTime+"','"+Link+"',"+Creater);
     }
 };

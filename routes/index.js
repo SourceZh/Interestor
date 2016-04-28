@@ -126,9 +126,6 @@ router.get('/COLLECTLIST', function (res, req) {
     handle.checkKey(UserID, Key, function (state) {
         if (state){
             handle.collectlist(UserID, ListID);
-        }else{
-            var result = {error:true};
-            res.json(result);
         }
     })
 });
@@ -142,9 +139,6 @@ router.get('/FORKLIST', function (res, req) {
     handle.checkKey(UserID, Key, function (state) {
         if (state){
             handle.forklist(UserID, ListID, ListName);
-        }else{
-            var result = {error:true};
-            res.json(result);
         }
     })
 });
@@ -158,9 +152,20 @@ router.get('/COLLECTITEM', function (res, req) {
     handle.checkKey(UserID, Key, function (state) {
         if (state){
             handle.collectitem(UserID, ItemID, ListID);
-        }else{
-            var result = {error:true};
-            res.json(result);
+        }
+    })
+});
+
+router.get('/CREATEITEM', function (res, req) {
+    var query = querystring.parse(url.parse(req.url).query);
+    var UserID = query["UserID"];
+    var Key = query["Key"];
+    var ItemName = query["ItemName"];
+    var ListID = query["ListID"];
+    var ItemID = UserID+'-'+ItemName;
+    handle.checkKey(UserID, Key, function (state) {
+        if (state){
+            handle.createitem(UserID, ItemID, ListID);
         }
     })
 });

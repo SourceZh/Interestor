@@ -154,7 +154,7 @@ exports.collectlist = function (UserID, ListID) {
 function insertitem(item, ItemID, ListID) {
     var sql = new mysql();
     sql.connect();
-    sql.insertitem(ItemID, ListID, item.createtime, time.now(), item.sid, item.link);
+    sql.insertitem(ItemID, ListID, item.createtime, time.now(), item.sid, item.link, item.cid);
     sql.end();
 }
 
@@ -201,4 +201,11 @@ exports.collectitem = function (UserID, ItemID, ListID) {
         var ItemID = UserID+'-'+sql.result.item.iid;
         insertitem(sql.result.item, ItemID, ListID);
     });
+};
+
+exports.createitem = function (UserID, ItemID, ListID) {
+    var sql = new mysql();
+    sql.connect();
+    sql.insertitem(ItemID, ListID, item.createtime, time.now(), item.sid, item.link, UserID);
+    sql.end();
 };
