@@ -4,6 +4,7 @@
 var random = require('./random');
 var mysql = require('./sql');
 var time = require('./time');
+var fs = require('fs');
 
 exports.logon = function(UserName, Passwd, Callback){
     var sql = new mysql();
@@ -28,6 +29,15 @@ function insert (res) {
     sql.end();
 }
 
+function newuser(id, UserName) {
+    var content = {
+        name:UserName,
+        id:id,
+        "list":[]
+    };
+    fs.writeFile('../public/list/author/'+id+'.json', content);
+}
+
 exports.register = function (UserName, Passwd, Callback) {
     var sql = new mysql();
     sql.connect();
@@ -44,6 +54,7 @@ exports.register = function (UserName, Passwd, Callback) {
             result.passwd = Passwd;
             result.key = random.hash(result.uid.toString());
             insert(result);
+            newuser(result.uid, UserName);
         }
         Callback(result);
     });
