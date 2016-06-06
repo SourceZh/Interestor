@@ -165,9 +165,22 @@ router.get('/CREATEITEM', function (res, req) {
     var ItemID = UserID+'-'+ItemName;
     handle.checkKey(UserID, Key, function (state) {
         if (state){
-            handle.createitem(UserID, ItemID, ListID);
+            handle.createitem(UserID, ItemID, ListID, function (result) {
+                res.json(result);
+            });
+        }else{
+            var result = {error:true};
+            res.json(result);
         }
     })
+});
+
+router.get('/UPSATEITEM', function (ers, req) {
+    var query = querystring.parse(url.parse(req.url).query);
+    var UserID = query["UserID"];
+    var Key = query["Key"];
+    var ItemID = query["ItemID"];
+    
 });
 
 module.exports = router;

@@ -203,9 +203,17 @@ exports.collectitem = function (UserID, ItemID, ListID) {
     });
 };
 
-exports.createitem = function (UserID, ItemID, ListID) {
+exports.createitem = function (UserID, ItemID, ListID, Callback) {
     var sql = new mysql();
     sql.connect();
     sql.insertitem(ItemID, ListID, item.createtime, time.now(), item.sid, item.link, UserID);
-    sql.end();
+    sql.end(function (err) {
+        if (err) throw err;
+        result.itemid = ItemID;
+        Callback(result);
+    });
+};
+
+exports.updateitem = function (UserID, ItemID) {
+
 };
